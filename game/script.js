@@ -109,7 +109,7 @@
 						case "s":
 							arrow = "down"
 						break
-						default
+						default:
 							arrow = null
 						break
 					}
