@@ -124,6 +124,11 @@
 		module.exports.startGame = startGame
 		function startGame(request, callback) {
 			try {
+				// unready
+					for (var p in request.game.players) {
+						request.game.players[p].ready = false
+					}
+					
 				// countdown
 					setTimeout(function() {
 						callback(Object.keys(request.game.players), {success: true, message: "3..."})
@@ -247,7 +252,7 @@
 
 												// final
 													var v = main.getDistance(0, 0, beam.vx, beam.vy)
-														v = Math.sign(v) * (Math.abs(v) + 0.5)
+														v = Math.sign(v) * (Math.abs(v) + 1)
 													var finalAngle = main.getMinimumAngle(tangentAngle + tangentAngle - initialAngle)
 												
 												// update data
