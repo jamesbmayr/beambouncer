@@ -86,6 +86,44 @@
 			}
 		}
 
+	/* submitArrow */
+		document.addEventListener("keydown", submitArrow)
+		function submitArrow(event) {
+			if (data && data.state && socket) {
+				// arrow
+					var arrow = null
+					switch (event.key) {
+						case "ArrowLeft":
+						case "a":
+							arrow = "left"
+						break
+						case "ArrowRight":
+						case "d":
+							arrow = "right"
+						break
+						case "ArrowUp":
+						case "w":
+							arrow = "up"
+						break
+						case "ArrowDown":
+						case "s":
+							arrow = "down"
+						break
+						default
+							arrow = null
+						break
+					}
+
+				// socket
+					if (arrow) {
+						socket.send(JSON.stringify({
+							action: "submitArrow",
+							arrow: arrow
+						}))
+					}
+			}
+		}
+
 /*** receives ***/
 	/* receivePost */
 		function receivePost(post) {
