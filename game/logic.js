@@ -235,7 +235,7 @@
 
 												// final
 													var v = main.getDistance(0, 0, beam.vx, beam.vy)
-														v = Math.sign(v) * (Math.abs(v) + 0.25)
+														v = Math.sign(v) * (Math.abs(v) + 1)
 													var finalAngle = main.getMinimumAngle(tangentAngle + tangentAngle - initialAngle)
 												
 												// update data
