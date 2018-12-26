@@ -336,7 +336,11 @@
 					callback([request.session.id], {success: false, message: "game already ended"})
 				}
 				else {
+					request.game.data.state.start = null
 					request.game.data.state.end = (new Date().getTime())
+					for (var p in request.game.players) {
+						request.game.players[p].ready = false
+					}
 					callback(Object.keys(request.game.players), {success: true, message: "game over"})
 				}
 			}
@@ -356,42 +360,57 @@
 						// paddle
 							var color = request.game.players[request.session.id].color
 							var paddle = request.game.data.paddles[color]
+								paddle.angle = main.getMinimumAngle(paddle.angle)
 
 						// angle
 							switch (request.post.arrow) {
 								case "left":
-									if (0 < paddle.angle && paddle.angle < 180) {
-										paddle.angle += 1
+									if (178 <= paddle.angle && paddle.angle <= 182) {
+										paddle.angle = 180
+									}
+									else if (180 < paddle.angle && paddle.angle < 360) {
+										paddle.angle -= 4
 									}
 									else {
-										paddle.angle -= 1
+										paddle.angle += 4
 									}
 								break
 								case "right":
-									if (180 < paddle.angle && paddle.angle < 360) {
-										paddle.angle += 1
+									if (paddle.angle <= 2 || paddle.angle >= 358) {
+										paddle.angle = 0
+									}
+									else if (0 < paddle.angle && paddle.angle < 180) {
+										paddle.angle -= 4
 									}
 									else {
-										paddle.angle -= 1
-									}
-								break
-								case "up":
-									if (((0 < paddle.angle && paddle.angle < 90)) || (270 < paddle.angle && paddle.angle < 360)) {
-										paddle.angle += 1
-									}
-									else {
-										paddle.angle -= 1
+										paddle.angle += 4
 									}
 								break
 								case "down":
-									if (90 < paddle.angle && paddle.angle < 270) {
-										paddle.angle += 1
+									if (88 <= paddle.angle && paddle.angle <= 92) {
+										paddle.angle = 90
+									}
+									else if (((0 <= paddle.angle && paddle.angle < 90)) || (270 < paddle.angle && paddle.angle <= 360)) {
+										paddle.angle += 4
 									}
 									else {
-										paddle.angle -= 1
+										paddle.angle -= 4
+									}
+								break
+								case "up":
+									if (268 <= paddle.angle && paddle.angle <= 272) {
+										paddle.angle = 270
+									}
+									else if (90 < paddle.angle && paddle.angle < 270) {
+										paddle.angle += 4
+									}
+									else {
+										paddle.angle -= 4
 									}
 								break
 							}
+
+							paddle.angle = main.getMinimumAngle(Math.round(paddle.angle))
 
 						// coordinates
 							var coords = main.getCartesianFromPolar(paddle.angle, paddle.distance)
