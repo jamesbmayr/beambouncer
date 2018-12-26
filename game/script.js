@@ -60,7 +60,7 @@
 	/* submitStart */
 		document.addEventListener(on.click, submitStart)
 		function submitStart(event) {
-			if (data && data.state && (!data.state.start || data.state.end) && socket) {
+			if (data && data.state && !data.state.start && socket) {
 				// socket
 					socket.send(JSON.stringify({
 						action: "submitStart"
@@ -167,7 +167,7 @@
 				else if (Object.keys(data.paddles).length < 2) {
 					drawText(500, 450, "game code: " + window.location.pathname.slice(-4), {size: 25, color: "white"})
 				}
-				else if (!data.state.start || data.state.end) {
+				else if (!data.state.start) {
 					drawText(500, 450, "click to play", {size: 25, color: "white"})
 				}
 
@@ -180,7 +180,7 @@
 				for (var o in data.orbs) {
 					var orb = data.orbs[o]
 					if (orb.x !== null && orb.y !== null) {
-						drawCircle(orb.x + 500, canvas.height - (orb.y + 500), orb.radius, {color: orb.color, opacity: 0.5, blur: 2, shadow: orb.color})
+						drawCircle(orb.x + 500, canvas.height - (orb.y + 500), orb.radius, {color: orb.color, opacity: 0.5, blur: 25, shadow: orb.color})
 					}
 				}
 
@@ -188,8 +188,8 @@
 				for (var b in data.beams) {
 					var beam = data.beams[b]
 					if (beam.x !== null && beam.y !== null) {
-						drawCircle(beam.x + 500, canvas.height - (beam.y + 500), beam.radius, {color: beam.color, blur: 2, shadow: beam.color})
-						drawLine(beam.x + 500, canvas.height - (beam.y + 500), beam.tx + 500, canvas.height - (beam.ty + 500), {color: beam.color, border: 8, opacity: 0.5, blur: 2, shadow: beam.color})
+						drawCircle(beam.x + 500, canvas.height - (beam.y + 500), beam.radius, {color: beam.color, blur: 20, shadow: beam.color})
+						drawLine(beam.x + 500, canvas.height - (beam.y + 500), beam.tx + 500, canvas.height - (beam.ty + 500), {color: beam.color, border: 8, opacity: 0.5, blur: 15, shadow: beam.color})
 					}
 				}
 
@@ -197,7 +197,7 @@
 				for (var p in data.paddles) {
 					var paddle = data.paddles[p]
 					if (paddle.x !== null && paddle.y !== null) {
-						drawCircle(paddle.x + 500, canvas.height - (paddle.y + 500), paddle.radius, {color: paddle.color, opacity: 0.5, blur: 2, shadow: paddle.color})
+						drawCircle(paddle.x + 500, canvas.height - (paddle.y + 500), paddle.radius, {color: paddle.color, opacity: 0.5, blur: 25, shadow: paddle.color})
 					}
 				}
 		}
