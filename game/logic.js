@@ -107,6 +107,18 @@
 			}
 		}
 
+	/* submitArrow */
+		module.exports.submitArrow = submitArrow
+		function submitArrow(request, callback) {
+			try {
+				updatePosition(request, callback)
+			}
+			catch (error) {
+				main.logError(error)
+				callback([request.session.id], {success: false, message: "unable to submit arrow"})
+			}
+		}
+
 /*** game ***/
 	/* startGame */
 		module.exports.startGame = startGame
@@ -339,22 +351,68 @@
 		module.exports.updatePosition = updatePosition
 		function updatePosition(request, callback) {
 			try {
-				if (request.post.x === undefined || request.post.y === undefined) {
-					callback([request.session.id], {success: false, message: "invalid position"})
-				}
-				else {
-					// paddle
-						var color = request.game.players[request.session.id].color
-						var paddle = request.game.data.paddles[color]
+				// arrow
+					if (request.post.arrow) {
+						// paddle
+							var color = request.game.players[request.session.id].color
+							var paddle = request.game.data.paddles[color]
 
-					// angle
-						paddle.angle = main.getPolarFromCartesian(request.post.x, request.post.y).angle
+						// angle
+							switch (request.post.arrow) {
+								case "left":
+									if (0 < paddle.angle && paddle.angle < 180) {
+										paddle.angle += 1
+									}
+									else {
+										paddle.angle -= 1
+									}
+								break
+								case "right":
+									if (180 < paddle.angle && paddle.angle < 360) {
+										paddle.angle += 1
+									}
+									else {
+										paddle.angle -= 1
+									}
+								break
+								case "up":
+									if (((0 < paddle.angle && paddle.angle < 90)) || (270 < paddle.angle && paddle.angle < 360)) {
+										paddle.angle += 1
+									}
+									else {
+										paddle.angle -= 1
+									}
+								break
+								case "down":
+									if (90 < paddle.angle && paddle.angle < 270) {
+										paddle.angle += 1
+									}
+									else {
+										paddle.angle -= 1
+									}
+								break
+							}
 
-					// coordinates
-						var coords = main.getCartesianFromPolar(paddle.angle, paddle.distance)
-							paddle.x = coords.x
-							paddle.y = coords.y
-				}
+						// coordinates
+							var coords = main.getCartesianFromPolar(paddle.angle, paddle.distance)
+								paddle.x = coords.x
+								paddle.y = coords.y
+					}
+
+				// mouse move
+					else if (request.post.x !== undefined && request.post.y !== undefined) {
+						// paddle
+							var color = request.game.players[request.session.id].color
+							var paddle = request.game.data.paddles[color]
+
+						// angle
+							paddle.angle = main.getPolarFromCartesian(request.post.x, request.post.y).angle
+
+						// coordinates
+							var coords = main.getCartesianFromPolar(paddle.angle, paddle.distance)
+								paddle.x = coords.x
+								paddle.y = coords.y
+					}
 			}
 			catch (error) {
 				main.logError(error)
