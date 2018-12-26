@@ -106,15 +106,10 @@
 									case (/\/stylesheet[.]css$/).test(request.url):
 										try {
 											response.writeHead(200, {"Content-Type": "text/css"})
-											fs.readFile("./main/stylesheet.css", "utf8", function (error, data) {
-												if (error) {_404(error)}
+											fs.readFile("./" + request.path[1] + "/stylesheet.css", "utf8", function (error, file) {
+												if (error) { _404(error) }
 												else {
-													fs.readFile("./" + request.path[1] + "/stylesheet.css", "utf8", function (error, file) {
-														if (error) { _404(error) }
-														else {
-															response.end("\n\n" + data + "\n\n" + file)
-														}
-													})
+													response.end("\n\n" + data + "\n\n" + file)
 												}
 											})
 										}
