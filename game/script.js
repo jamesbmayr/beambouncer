@@ -197,7 +197,7 @@
 				for (var p in data.paddles) {
 					var paddle = data.paddles[p]
 					if (paddle.x !== null && paddle.y !== null) {
-						drawCircle(paddle.x + 500, canvas.height - (paddle.y + 500), paddle.radius, {color: paddle.color, opacity: 0.5, blur: 25, shadow: paddle.color})
+						drawCircle(paddle.x + 500, canvas.height - (paddle.y + 500), paddle.radius, {color: paddle.color, opacity: 0.5})
 					}
 				}
 		}
