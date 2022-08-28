@@ -17,8 +17,9 @@
 		}
 
 	/* variables */
-		var data        = window.data = {}
-		var socket      = null
+		var data         = window.data = {}
+		var pingInterval = 1000 * 60
+		var socket       = null
 
 /*** websocket ***/
 	/* socket */
@@ -31,6 +32,15 @@
 				socket = null
 				window.location = "../../../../"
 			}
+
+			if (socket.pingLoop) {
+				clearInterval(socket.pingLoop)
+			}
+			socket.pingLoop = setInterval(function() {
+				fetch("/ping", {method: "GET"})
+					.then(function(response){ return response.json() })
+					.then(function(data) {})
+			}, pingInterval)
 
 			socket.onmessage = function(message) {
 				try {
