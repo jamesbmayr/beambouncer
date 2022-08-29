@@ -1,6 +1,6 @@
 # beamBouncer
 
-a 2-player co-op radial pong game: https://beambouncer.herokuapp.com
+a 2-player co-op radial pong game: https://beambouncer.onrender.com
 
 ---
 

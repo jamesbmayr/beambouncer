@@ -92,9 +92,9 @@
 								<meta name="keywords" content="game,pong,laser,co-op,multiplayer,arcade,paddle,beam"/>\
 								<meta name="author" content="James Mayr"/>\
 								<meta property="og:title" content="beambouncer: a 2-player co-op radial pong game"/>\
-								<meta property="og:url" content="https://beambouncer.herokuapp.com"/>\
+								<meta property="og:url" content="https://beambouncer.onrender.com"/>\
 								<meta property="og:description" content="beambouncer is a 2-player co-op radial pong game."/>\
-								<meta property="og:image" content="https://beambouncer.herokuapp.com/logo.png"/>\
+								<meta property="og:image" content="https://beambouncer.onrender.com/logo.png"/>\
 								<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>'
 					break
 
